@@ -1,0 +1,62 @@
+{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+
+{# content for main block #}
+{% block content %}
+
+<div class="ui page grid">
+  <div class="ui column">
+    <h2 class="ui massive center aligned icon header" >
+      <i class="circular emphasized inverted disabled food icon"></i>
+      <div class="content">
+        Pizza Day
+        <div class="sub header">
+          And I don't cook, either. Not as long as they still deliver pizza.
+        </div>
+      </div>
+    </h2>
+
+
+    <table class="ui table segment">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Small Size</th>
+          <th>Price</th>
+          <th>Big Size</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+      <tbody class="ui accordion">
+      {% for pizza in pizzas %}
+        <tr class="title selectable">
+          <td>{{ pizza[0] }}</td>
+          <td>{{ pizza[5] }}</td>
+          <td>{{ pizza[1] }} g</td>
+          <td>{{ pizza[2] }} &euro;</td>
+          <td>{{ pizza[3] }} g</td>
+          <td>{{ pizza[4] }} &euro;</td>
+        </tr>
+        <tr class="fluid content">
+          <td colspan="6">
+            hoj
+          </td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    <div class="ui button">
+      Order madafakaz!
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{#
+          <td>{{ pizza[5] }}</td>
+          <td>{{ pizza[1] }} g</td>
+          <td>{{ pizza[2] }} &euro;</td>
+          <td>{{ pizza[3] }} g</td>
+          <td>{{ pizza[4] }} &euro;</td>
+#}

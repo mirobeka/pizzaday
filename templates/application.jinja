@@ -1,0 +1,15 @@
+<!doctype html>
+<html>
+  <head>
+    <title>{% block title%}{% endblock %}</title>
+    {% include "_header.jinja" %}
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {# replace block with content #}
+    {% block content %}{% endblock %}
+
+    {# footer here please #}
+    {% include "_footer.jinja" %}
+  </body>
+</html>
