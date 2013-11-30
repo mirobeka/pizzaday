@@ -1,0 +1,40 @@
+{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+
+{# content for main block #}
+{% block content %}
+
+<div class="ui page grid">
+  <div class="ui column">
+
+    <table class="ui inverted table segment">
+      <thead>
+        <tr>
+          <th> dealer </th>
+          <th> restaurant </th>
+          <th> deadline </th>
+          <th> approx lunch </th>
+          <th> # of orders </th>
+          <th> join? </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for dealer, data in sessions.items() %}
+        <tr>
+          <td>{{ dealer }}</td>
+          <td>{{ data.get("info", "restaurant") }}</td>
+          <td>{{ data.get("info", "deadline") }}</td>
+          <td>{{ data.get("info", "approx_lunch") }}</td>
+          <td>{{ data.options("orders")|length }} orders</td>
+          <td>
+            <a href="/{{dealer}}/orderpizza/"class="ui green medium button">
+              join
+            </a>
+          </td>
+        </tr>
+          
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}
