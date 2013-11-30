@@ -3,9 +3,10 @@
 {# content for main block #}
 {% block content %}
 
+<div class="small top spacer">
 <div class="ui page grid">
   <div class="ui column">
-    <h2 class="ui massive center aligned icon header" >
+    <h2 class="ui huge center aligned icon header" >
       <i class="circular emphasized inverted disabled food icon"></i>
       <div class="content">
         Pizza Day
@@ -25,6 +26,14 @@
       {%- endfor %}
       </div>
     </form>
+    <a href="/activesessions/" class="ui medium vertical animated button">
+      <div class="visible content">
+        back to sessions
+      </div>
+      <div class="hidden content">
+        <i class="left arrow icon"></i>
+      </div>
+    </a>
   </div>
 </div>
 
