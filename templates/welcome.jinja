@@ -1,0 +1,49 @@
+{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %} 
+{# content for main block #}
+{% block content %}
+
+<div class="top spacer"></div>
+<div class="ui relaxed horizontal grid">
+
+  <div class="eight wide column">
+    <div class="ui huge center aligned icon header">
+      <i class="circular emphasized inverted user icon"></i>
+      <div class="content">
+        <a href="/startsession/" class="ui massive animated fade button">
+          <div class="visible content">
+            Start Pizza Session
+          </div>
+          <div class="hidden content">
+            Go for it!
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui vertical divider">
+    or
+  </div>
+
+  <div class="eight wide column">
+    <div class="ui huge center aligned icon header">
+      <i class="circular emphasized inverted users icon"></i>
+      <div class="content">
+        <a href="/activesessions/" class="ui massive animated fade button">
+          <div class="visible content">
+            Order Dat Pizza
+          </div>
+          <div class="hidden content">
+            Go for it!
+          </div>
+        </a>
+      </div> {# end content #}
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}
+
+{# remove footer from basic skeleton of application #}
+{% block footer %}{% endblock footer%}

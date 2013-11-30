@@ -30,3 +30,8 @@ form.ui.form{
 .ui.fluid.accordion .field{
   margin: 0px 0px 0px 0px;
 }
+
+/* spacer for welcome page */
+.top.spacer{
+  margin-top: 20%;
+}
