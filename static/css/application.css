@@ -26,12 +26,26 @@ form.ui.form{
   padding: 0px;
 }
 
+.segment.borderless{
+  -moz-box-shadow: 0px 0px 0px 0px;
+  -webkit-box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 0px 0px;
+}
+
 /* remove margin in hidden pizza item fields */
 .ui.fluid.accordion .field{
   margin: 0px 0px 0px 0px;
 }
 
 /* spacer for welcome page */
-.top.spacer{
+.big.top.spacer{
   margin-top: 20%;
+}
+
+.medium.top.spacer{
+  margin-top: 10%;
+}
+
+.small.top.spacer{
+  margin-top: 5%;
 }

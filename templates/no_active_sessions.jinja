@@ -1,0 +1,27 @@
+{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+
+{# content for main block #}
+{% block content %}
+
+<div class="top small spacer"></div>
+<div class="ui page grid">
+  <div class="ui column">
+    <h2 class="ui huge center aligned icon header" >
+      <i class="blue meh icon"></i>
+      <div class="content">
+        Damm It!
+        <div class="sub header">
+         No Pizza Sessions
+        </div>
+      </div>
+    </h2>
+
+    <div class="ui fluid center aligned borderless segment small top spacer">
+      <a href="/startsession/" class="ui medium button">
+        Create Session?
+      </a>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

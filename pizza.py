@@ -30,6 +30,8 @@ def start_session():
 @app.route("/activesessions/")
 def start_pizza_session():
   session_list = sessions.get_session_list()
+  if len(session_list) <= 0:
+    return render_template("no_active_sessions.jinja")
   return render_template("active_sessions.jinja", sessions=session_list)
 
 if __name__ == "__main__":
