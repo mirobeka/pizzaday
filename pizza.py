@@ -3,6 +3,7 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 import chommi
+import sessions
 
 app = Flask(__name__)
 app.debug = True
@@ -15,10 +16,21 @@ def index():
 def welcome():
   return render_template("welcome.jinja")
 
-@app.route("/pizzaorder/")
-def pizzaorder():
-  pizzas = chommi.gimme_dat_pizzas()
+@app.route("/<session_name>/orderpizza/")
+def pizzaorder(session_name):
+  session = sessions.get_session(session_name)
+  restaurant = __import__(session.get("info", "restaurant"))
+  pizzas = restaurant.gimme_dat_pizzas()
   return render_template("select_pizza.jinja", pizzas=pizzas)
 
+@app.route("/startsession/")
+def start_session():
+  return render_template("start_session.jinja")
+
+@app.route("/activesessions/")
+def start_pizza_session():
+  session_list = sessions.get_session_list()
+  return render_template("active_sessions.jinja", sessions=session_list)
+
 if __name__ == "__main__":
-  app.run(host="0.0.0.0")
+  app.run()
