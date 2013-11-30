@@ -15,48 +15,15 @@
       </div>
     </h2>
 
+    <form action="/order/" method="post" class="ui fluid form segment">
+      <div class="ui fluid accordion">
+        {{ pz_helper.pizza_header() }}
 
-    <table class="ui table segment">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Small Size</th>
-          <th>Price</th>
-          <th>Big Size</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody class="ui accordion">
-      {% for pizza in pizzas %}
-        <tr class="title selectable">
-          <td>{{ pizza[0] }}</td>
-          <td>{{ pizza[5] }}</td>
-          <td>{{ pizza[1] }} g</td>
-          <td>{{ pizza[2] }} &euro;</td>
-          <td>{{ pizza[3] }} g</td>
-          <td>{{ pizza[4] }} &euro;</td>
-        </tr>
-        <tr class="fluid content">
-          <td colspan="6">
-            hoj
-          </td>
-        </tr>
-      {% endfor %}
-      </tbody>
-    </table>
-    <div class="ui button">
-      Order madafakaz!
-    </div>
-  </div>
-</div>
+        {% for pizza in pizzas -%}
+          {{ pz_helper.pizza_item(pizza[0], pizza[5], pizza[1], pizza[2], pizza[3], pizza[4]) }}
+        </div>
+      {%- endfor %}
+      </div>
+    </form>
 
-{% endblock %}
-
-{#
-          <td>{{ pizza[5] }}</td>
-          <td>{{ pizza[1] }} g</td>
-          <td>{{ pizza[2] }} &euro;</td>
-          <td>{{ pizza[3] }} g</td>
-          <td>{{ pizza[4] }} &euro;</td>
-#}
+{% endblock content %}
