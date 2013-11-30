@@ -19,11 +19,14 @@ html, body {
   margin-bottom: 1.5rem;
 }
 
-.ui.inverted.table tbody .selectable {
-  cursor: pointer;
+form.ui.form{
+  -moz-box-shadow: 0px 0px 0px 0px;
+  -webkit-box-shadow: 0px 0px 0px 0px;
+  box-shadow: 0px 0px 0px 0px;
+  padding: 0px;
 }
 
-.ui.inverted.table tbody .selectable:hover {
-  background-color: gray;
+/* remove margin in hidden pizza item fields */
+.ui.fluid.accordion .field{
+  margin: 0px 0px 0px 0px;
 }
-
