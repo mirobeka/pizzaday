@@ -1,4 +1,4 @@
 $(document).ready(function(){
   $('.ui.accordion').accordion();
-  $('.ui.button').raptorize();
+  //$('.ui.button').raptorize();
 });
