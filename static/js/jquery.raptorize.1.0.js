@@ -36,6 +36,7 @@
  			if(audioSupported) { $('body').append(raptorAudioMarkup); }
 			var raptor = $('#elRaptor').css({
 				"position":"fixed",
+				"z-index":"100",
 				"bottom": "-700px",
 				"right" : "0",
 				"display" : "block"
