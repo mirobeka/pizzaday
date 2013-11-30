@@ -1,4 +1,4 @@
-{% import "pizza_helpers.jinja" as pz_helper%}
+{% import "helpers/pizza_helpers.jinja" as pz_helper%}
 
 <!doctype html>
 <html>
@@ -11,7 +11,9 @@
     {# replace block with content #}
     {% block content %}{% endblock %}
 
-    {# footer here please #}
-    {% include "_footer.jinja" %}
+    {% block footer %}
+      {# footer here please #}
+      {% include "_footer.jinja" %}
+    {% endblock %}
   </body>
 </html>
