@@ -18,13 +18,17 @@ def index():
 def welcome():
   return render_template("welcome.jinja")
 
-@app.route("/<session_name>/orderpizza/")
+@app.route("/<session_name>/orderpizza/", methods=["GET", "POST"])
 def pizzaorder(session_name):
-  session = sessions.get_session(session_name)
-  restaurant_name = session.get("info", "restaurant")
-  restaurant = __import__("pizza_places."+restaurant_name, fromlist=[restaurant_name])
-  pizzas = restaurant.gimme_dat_pizzas()
-  return render_template("select_pizza.jinja", pizzas=pizzas)
+  if request.method == "POST":
+    sessions.add_order_to_session(session_name, request.form)
+    return url_for("review_order", session_name=session_name, pizza=request.form["pizza"])
+  else:
+    return show_pizza_options(session_name)
+
+@app.route("/<session_name>/review/<size>/<pizza>/")
+def review_order(session_name, pizza):
+  return render_tempalte("review_order.jinja", pizza=pizza)
 
 @app.route("/startsession/", methods=["GET", "POST"])
 def start_session():
@@ -44,6 +48,14 @@ def active_sessions():
 
 ##
 # Functions
+
+def show_pizza_options(session_name):
+    session = sessions.get_session(session_name)
+    restaurant_name = session.get("info", "restaurant")
+    restaurant = __import__("pizza_places."+restaurant_name, fromlist=[restaurant_name])
+    pizzas = restaurant.gimme_dat_pizzas()
+    return render_template("select_pizza.jinja", pizzas=pizzas)
+
 
 def start_new_session(request):
   sessions.create_session(request.form["email"], request.form)
