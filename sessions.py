@@ -21,7 +21,7 @@ def create_session(session_name, data):
 
   session.set("info", "deadline", data["deadline"])
   session.set("info", "restaurant", data["restaurant"])
-  session.set("info", "approx _lunch", data["deadline"])
+  session.set("info", "approx_lunch", data["approx_lunch"])
 
   save_session(session_name, session)
 
@@ -43,11 +43,11 @@ def load_session(session_name):
 def save_session(session_name, session):
   file_path = os.path.join("sessions", session_name)
   if os.path.isfile(file_path):
-    return false
+    return False
   else:
     with open(file_path, "w") as fp:
       session.write(fp)
-    return true
+    return True
 
 def sort_sessions_by_deadline(sessions):
   # TODO: add sorting by time
