@@ -3,21 +3,51 @@ import ConfigParser
 import os
 
 def get_session(session_name):
-  session = ConfigParser.ConfigParser()
-  file_name = os.path.join("sessions", session_name)
-  with open(file_name, "r") as fp:
-    session.readfp(fp)
+  session = load_session(session_name)
   return session
 
 def get_session_list():
   sessions = {}
   for root, dirnames, files in os.walk("sessions"):
-    for fname in files:
-      print("reading {}".format(fname))
-      sessions[fname] = ConfigParser.ConfigParser()
-      with open(os.path.join(root, fname), "r")as fp:
-        sessions[fname].readfp(fp)
+    for session_name in files:
+      sessions[session_name] = load_session(session_name)
   return sessions
+
+def create_session(session_name, data):
+  session = ConfigParser.ConfigParser()
+  session.add_section("info")
+  session.add_section("orders")
+  session.add_section("extra")
+
+  session.set("info", "deadline", data["deadline"])
+  session.set("info", "restaurant", data["restaurant"])
+  session.set("info", "approx _lunch", data["deadline"])
+
+  save_session(session_name, session)
+
+def add_order_to_session(session_name, order):
+  session = load_session(session_name)
+  session.set("orders", order["name"], order["pizza"])
+  if "extra" in order:
+    session.set("extra", order["name"], order["extra"])
+
+  save_session(session_name, session)
+
+def load_session(session_name):
+  session = ConfigParser.ConfigParser()
+  file_path = os.path.join("sessions", session_name)
+  with open(file_path, "r") as fp:
+    session.readfp(fp)
+  return session
+
+def save_session(session_name, session):
+  file_path = os.path.join("sessions", session_name)
+  if os.path.isfile(file_path):
+    return false
+  else:
+    with open(file_path, "w") as fp:
+      session.write(fp)
+    return true
 
 def sort_sessions_by_deadline(sessions):
   # TODO: add sorting by time
