@@ -3,13 +3,19 @@
 {# change title #}
 {% block title %}Pizza Day{% endblock %}
 
+{% block head %}
+  {{ super() }}
+  <script src= {{ url_for("static", filename="js/start_session.js") }}></script>
+{% endblock head %}
+
+
 {# content for main block #}
 {% block content %}
 
 <div class="medium top spacer"></div>
 <div class="ui page grid">
   <div class="column">
-    <div class="ui form segment">
+    <div id="session_form" class="ui form segment">
 
       <div class="field">
         <label>Email</label>
@@ -26,7 +32,7 @@
         <label>Open until</label>
         <div class="ui left labeled icon input">
           <input type="text" name="deadline" placeholder="10:30">
-            <i class="user icon"></i>
+            <i class="time icon"></i>
             <div class="ui corner label">
               <i class="icon asterisk"></i>
             </div>
@@ -38,7 +44,7 @@
         <label>Approx Lunch Time</label>
         <div class="ui left labeled icon input">
           <input type="text" name="lunch_time" placeholder="11:00">
-            <i class="user icon"></i>
+            <i class="time icon"></i>
             <div class="ui corner label">
               <i class="icon asterisk"></i>
             </div>
@@ -48,12 +54,24 @@
 
       <div class="field">
         <label>Pizza Place</label>
+        <div class="ui selection dropdown">
+          <input type="hidden" name="pizza_place">
+          <i class="disabled food icon"></i>
+          <div class="text">{{ pizza_places[0]|capitalize }}</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {% for pizza_place in pizza_places %}
+            <div class="item {% if loop.first %}active{% endif %}" data-value="{{pizza_place}}">{{ pizza_place|capitalize }}</div>
+            {% endfor %}
+          </div>
+        </div>
+      </div> {# field end #}
+
+      <div class="field">
+        <label>Invite someone?</label>
         <div class="ui left labeled icon input">
-          <input type="text" name="pizza_place" placeholder={{ pizza_places }}>
-            <i class="user icon"></i>
-            <div class="ui corner label">
-              <i class="icon asterisk"></i>
-            </div>
+          <input type="text" name="recipients" placeholder="Comma separated list of recipients">
+            <i class="mail icon"></i>
           </input>
         </div>
       </div> {# field end #}
