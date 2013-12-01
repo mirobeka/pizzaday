@@ -1,30 +1,38 @@
-{% macro pizza_item(name, desc, small_weight, small_price, big_weight, big_price) -%}
+{% macro pizza_item(name, desc, small_weight, small_price, big_weight, big_price, index) -%}
+
 <div class="ui title">
   <div class="ui horizontal grid">
+
     <div class="three wide column"> {{ name }} </div>
     <div class="five wide column"> {{ desc }} </div>
     <div class="two wide column"> {{ small_weight }} g</div>
     <div class="two wide column"> {{ small_price }} &euro;</div>
     <div class="two wide column"> {{ big_weight }} g</div>
     <div class="two wide column"> {{ big_price }} &euro;</div>
+
   </div>
 </div>
 
 <div class="content">
-  <div class="two fields">
-    <div class="field">
-      <input type="text" placeholder="Extra ingredients?">
-    </div>
+  <div class="ui order form">
+    <div class="two fields">
 
-    <div class="field">
-      <div class="ui right floated buttons">
-        <div class="ui green medium submit button"> Small </div>
-        <div class="or"></div>
-        <div class="ui medium primary submit button"> &nbsp; Big &nbsp;&nbsp;</div>
+      <div class="field"> {# field 1 #}
+        <input name="extra" type="text" placeholder="Extra ingredients?">
       </div>
-    </div>
 
+      <div class="field"> {# field 2 #}
+        <div class="ui right floated buttons">
+          <input type="submit" value="small" class="ui medium green button">
+          <div class="or"></div>
+          <input type="submit" value=" big  " class="ui medium red button">
+          <input type="hidden" name="pizza" value={{ index }}>
+        </div> {# end floated buttons #}
+      </div>
+    </div> {# end fields #}
   </div>
+</div> {# end of content #}
+
 {%- endmacro %}
 
 {% macro pizza_header() -%}
