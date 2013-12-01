@@ -18,16 +18,19 @@ def create_session(session_name, data):
   session.add_section("info")
   session.add_section("orders")
   session.add_section("extra")
+  session.add_section("size")
 
   session.set("info", "deadline", data["deadline"])
   session.set("info", "restaurant", data["restaurant"])
   session.set("info", "approx_lunch", data["approx_lunch"])
+  session.set("info", "recipients", data["recipients"])
 
   save_session(session_name, session)
 
 def add_order_to_session(session_name, order):
   session = load_session(session_name)
   session.set("orders", order["name"], order["pizza"])
+  session.set("size", order["name"], order["size"])
   if "extra" in order:
     session.set("extra", order["name"], order["extra"])
 
