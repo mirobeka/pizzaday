@@ -1,7 +1,15 @@
-{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+{% extends "application.jinja" %} {# change title #}
+
+{% block title %}Pizza Day{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <script src= {{ url_for("static", filename="js/order_pizza.js") }}></script>
+{% endblock head %}
 
 {# content for main block #}
 {% block content %}
+
 
 <div class="small top spacer">
 <div class="ui page grid">
@@ -16,16 +24,14 @@
       </div>
     </h2>
 
-    <form action="" method="post" class="ui fluid form segment">
-      <div class="ui fluid accordion">
-        {{ pz_helper.pizza_header() }}
+    <div class="ui fluid accordion">
+      {{ pz_helper.pizza_header() }}
 
-        {% for pizza in pizzas -%}
-          {{ pz_helper.pizza_item(pizza[0], pizza[5], pizza[1], pizza[2], pizza[3], pizza[4]) }}
-        </div>
+      {% for pizza in pizzas -%}
+          {{ pz_helper.pizza_item(pizza[0], pizza[5], pizza[1], pizza[2], pizza[3], pizza[4], pizza[6]) }}
       {%- endfor %}
-      </div>
-    </form>
+    </div> {# end of accordion #}
+
     <a href={{ url_for("active_sessions") }} class="ui medium vertical animated button">
       <div class="visible content">
         back to sessions
@@ -33,7 +39,8 @@
       <div class="hidden content">
         <i class="left arrow icon"></i>
       </div>
-    </a>
+    </a> {# end of return to active sessions button #}
+
   </div>
 </div>
 
