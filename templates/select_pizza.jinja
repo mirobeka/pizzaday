@@ -16,7 +16,7 @@
       </div>
     </h2>
 
-    <form action="/order/" method="post" class="ui fluid form segment">
+    <form action="" method="post" class="ui fluid form segment">
       <div class="ui fluid accordion">
         {{ pz_helper.pizza_header() }}
 
@@ -26,7 +26,7 @@
       {%- endfor %}
       </div>
     </form>
-    <a href="/activesessions/" class="ui medium vertical animated button">
+    <a href={{ url_for("active_sessions") }} class="ui medium vertical animated button">
       <div class="visible content">
         back to sessions
       </div>
