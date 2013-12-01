@@ -5,6 +5,7 @@ from flask import redirect
 from flask import url_for
 from flask import request
 import sessions
+import pkgutil
 
 app = Flask(__name__)
 app.debug = True
@@ -30,7 +31,8 @@ def start_session():
   if request.method == "POST":
     return start_new_session(request)
   else:
-    return render_template("start_session.jinja")
+    pizza_places = get_list_of_pizza_places()
+    return render_template("start_session.jinja", pizza_places=pizza_places)
 
 @app.route("/activesessions/")
 def active_sessions():
@@ -44,8 +46,11 @@ def active_sessions():
 # Functions
 
 def start_new_session(request):
-  sessions.create_session(request.form["session_name"], request.form)
-  return redirect_to(url_for("active_sessions"))
+  sessions.create_session(request.form["email"], request.form)
+  return url_for("active_sessions")
+
+def get_list_of_pizza_places():
+  return [name for _, name, _ in pkgutil.iter_modules(["pizza_places"])]
 
 if __name__ == "__main__":
   app.run()

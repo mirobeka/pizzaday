@@ -1,6 +1,66 @@
-{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+{% extends "application.jinja" %}
+
+{# change title #}
+{% block title %}Pizza Day{% endblock %}
 
 {# content for main block #}
 {% block content %}
 
+<div class="medium top spacer"></div>
+<div class="ui page grid">
+  <div class="column">
+    <div class="ui form segment">
+
+      <div class="field">
+        <label>Email</label>
+        <div class="ui left labeled icon input">
+          <input type="text" name="email" placeholder="example@eset.sk">
+            <i class="user icon"></i>
+            <div class="ui corner label">
+              <i class="icon asterisk"></i>
+            </div>
+          </input>
+        </div>
+      </div> {# field end #}
+      <div class="field">
+        <label>Open until</label>
+        <div class="ui left labeled icon input">
+          <input type="text" name="deadline" placeholder="10:30">
+            <i class="user icon"></i>
+            <div class="ui corner label">
+              <i class="icon asterisk"></i>
+            </div>
+          </input>
+        </div>
+      </div> {# field end #}
+
+      <div class="field">
+        <label>Approx Lunch Time</label>
+        <div class="ui left labeled icon input">
+          <input type="text" name="lunch_time" placeholder="11:00">
+            <i class="user icon"></i>
+            <div class="ui corner label">
+              <i class="icon asterisk"></i>
+            </div>
+          </input>
+        </div>
+      </div> {# field end #}
+
+      <div class="field">
+        <label>Pizza Place</label>
+        <div class="ui left labeled icon input">
+          <input type="text" name="pizza_place" placeholder={{ pizza_places }}>
+            <i class="user icon"></i>
+            <div class="ui corner label">
+              <i class="icon asterisk"></i>
+            </div>
+          </input>
+        </div>
+      </div> {# field end #}
+
+      <div class="ui blue submit button">create</div>
+    </div> {# end form #}
+  </div> {# end column #}
+</div>
+  
 {% endblock content %}
