@@ -29,12 +29,12 @@ def create_session(session_name, data):
 
   save_session(session_name, session)
 
-def add_order_to_session(session_name, order):
+def add_order_to_session(session_name, user_email, order):
   session = load_session(session_name)
-  session.set("orders", order["name"], order["pizza"])
-  session.set("size", order["name"], order["size"])
+  session.set("orders", user_email, order["pizza"])
+  session.set("size", user_email, order["size"])
   if "extra" in order:
-    session.set("extra", order["name"], order["extra"])
+    session.set("extra", user_email, order["extra"])
 
   save_session(session_name, session)
 
