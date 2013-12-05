@@ -50,8 +50,6 @@ def save_session(session_name, session):
   if exists_or_create_session_folder():
     file_path = os.path.join("sessions", session_name)
     if os.path.isfile(file_path):
-      return False
-    else:
       with open(file_path, "w") as fp:
         session.write(fp)
       return True
