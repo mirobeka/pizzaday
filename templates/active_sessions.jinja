@@ -1,4 +1,12 @@
-{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+{% extends "application.jinja" %} {# change title #}
+
+{% block title %}Pizza Day{% endblock %}
+
+{# head block please here #}
+{% block head %}
+  {{ super() }}
+  <script src= {{ url_for("static", filename="js/active_sessions.js") }}></script>
+{% endblock head %}
 
 {# content for main block #}
 {% block content %}
@@ -28,12 +36,12 @@
         {% for dealer, data in sessions.items() %}
         <tr>
           <td>{{ dealer }}</td>
-          <td>{{ data.get("info", "restaurant") }}</td>
+          <td>{{ data.get("info", "restaurant")|capitalize }}</td>
           <td>{{ data.get("info", "deadline") }}</td>
           <td>{{ data.get("info", "approx_lunch") }}</td>
           <td>{{ data.options("orders")|length }} orders</td>
           <td>
-            <a href="/{{dealer}}/orderpizza/"class="ui green medium button">
+            <a class="ui green medium button" onclick="join('{{dealer}}');">
               yes!
             </a>
           </td>
@@ -42,6 +50,27 @@
         {% endfor %}
       </tbody>
     </table>
+    <div id="email_modal" class="ui modal">
+      <i class="close icon"></i>
+      <div id="modal_header" class="header"> </div>
+        <div class="content">
+          <div id="modal_form" class="ui form">
+          <div class="field">
+            <label>Enter your email pls</label>
+            <div class="ui left labeled icon input">
+              <input type="text" name="user_email" placeholder="joh@here.com">
+                <i class="mail icon"></i>
+              </input>
+            </div>
+          </div> {# field end #}
+          <input id="session_name" type="hidden" name="session_name" value="">
+          </div> {# end form #}
+        </div>
+        <div class="actions">
+          <div class="ui button">Cancel</div>
+          <div class="ui green submit button">OK</div>
+        </div>
+    </div>
   </div>
 </div>
 {% endblock content %}
