@@ -23,7 +23,6 @@ function initialize_order_forms(){
 
 $(document).ready(function(){
   $('.ui.accordion').accordion();
-  //$('.ui.button').raptorize();
   initialize_order_forms();
 
   // to determine what
