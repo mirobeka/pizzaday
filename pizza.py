@@ -18,10 +18,10 @@ def index():
 def welcome():
   return render_template("welcome.jinja")
 
-@app.route("/<session_name>/orderpizza/", methods=["GET", "POST"])
-def pizzaorder(session_name):
+@app.route("/<session_name>/<user_email>/orderpizza/", methods=["GET", "POST"])
+def pizzaorder(session_name, user_email):
   if request.method == "POST":
-    sessions.add_order_to_session(session_name, request.form)
+    sessions.add_order_to_session(session_name, user_email, request.form)
     return url_for("review_order", session_name=session_name, pizza=request.form["pizza"])
   else:
     return show_pizza_options(session_name)
@@ -38,8 +38,10 @@ def start_session():
     pizza_places = get_list_of_pizza_places()
     return render_template("start_session.jinja", pizza_places=pizza_places)
 
-@app.route("/activesessions/")
+@app.route("/activesessions/", methods=["GET", "POST"])
 def active_sessions():
+  if request.method == "POST":
+    return url_for("pizzaorder", user_email=request.form["user_email"], session_name=request.form["session_name"])
   session_list = sessions.get_session_list()
   if len(session_list) <= 0:
     return render_template("no_active_sessions.jinja")
