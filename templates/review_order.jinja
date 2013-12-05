@@ -1,0 +1,32 @@
+{% extends "application.jinja" %} {# change title #} {% block title %}Pizza Day{% endblock %}
+
+{# content for main block #}
+{% block content %}
+
+<div class="top small spacer"></div>
+<div class="ui page grid">
+  <div class="column">
+
+    <h2 class="ui huge center aligned icon header" >
+      <i class="blue thumbs up outline icon"></i>
+      <div class="content">
+        Gooood
+        <div class="sub header">
+          You have a nice day, sir.
+        </div>
+      </div>
+    </h2>
+    <div class="ui piled segment">
+      <h2>Your Order</h2>
+      <p>{{ size|capitalize }} {{ pizza_info[0]|capitalize }}</p>
+      <p><em>({{ pizza_info[5] }})</em></p>
+      {% if size == "small" %}
+      <p><strong>Price:</strong> {{ pizza_info[2] }} + 0.33 = <strong>{{ pizza_info[2]+0.33 }} &euro;</strong></p>
+      {% else %}
+      <p><strong>Price:</strong> {{ pizza_info[4] }} + 0.33 = <strong>{{ pizza_info[4]+0.33 }} &euro;</strong></p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+<div class="top small spacer"></div>
+{% endblock content %}

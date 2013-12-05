@@ -22,13 +22,16 @@ def welcome():
 def pizzaorder(session_name, user_email):
   if request.method == "POST":
     sessions.add_order_to_session(session_name, user_email, request.form)
-    return url_for("review_order", session_name=session_name, pizza=request.form["pizza"])
+    return url_for("review_order", session_name=session_name, size=request.form["size"], pizza=request.form["pizza"])
   else:
-    return show_pizza_options(session_name)
+    pizzas = get_pizza_options(session_name)
+    return render_template("select_pizza.jinja", pizzas=pizzas)
 
 @app.route("/<session_name>/review/<size>/<pizza>/")
-def review_order(session_name, pizza):
-  return render_tempalte("review_order.jinja", pizza=pizza)
+def review_order(session_name, size, pizza):
+  pizzas = get_pizza_options(session_name)
+  pizza_info = pizzas[int(pizza)]
+  return render_template("review_order.jinja", session_name=session_name, pizza_info=pizza_info, size=size)
 
 @app.route("/startsession/", methods=["GET", "POST"])
 def start_session():
@@ -51,12 +54,11 @@ def active_sessions():
 ##
 # Functions
 
-def show_pizza_options(session_name):
+def get_pizza_options(session_name):
     session = sessions.get_session(session_name)
     restaurant_name = session.get("info", "restaurant")
     restaurant = __import__("pizza_places."+restaurant_name, fromlist=[restaurant_name])
-    pizzas = restaurant.gimme_dat_pizzas()
-    return render_template("select_pizza.jinja", pizzas=pizzas)
+    return restaurant.gimme_dat_pizzas()
 
 
 def start_new_session(request):
