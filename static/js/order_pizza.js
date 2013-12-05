@@ -21,6 +21,10 @@ function initialize_order_forms(){
       )
 }
 
+function on_form_submitted(response){
+  window.location.assign(response)
+}
+
 $(document).ready(function(){
   $('.ui.accordion').accordion();
   initialize_order_forms();
