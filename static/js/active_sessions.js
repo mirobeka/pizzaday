@@ -1,5 +1,11 @@
 $(document).ready(function(){
-  $("#email_modal").modal();
+  $("#email_modal").modal("setting", {
+    onApprove: function(){
+      console.log("submitting form");
+      $('#modal_form').form("submit");
+    }
+  });
+
   $("#modal_form").form({},
   {
     onSuccess: function(){
@@ -29,7 +35,6 @@ function join(session_name){
   // add hidden field
   $("#modal_header").text("Want to join " + session_name + " ?");
   $("#session_name").val(session_name);
-
   $("#email_modal").modal("show");
 }
 

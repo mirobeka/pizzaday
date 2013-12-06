@@ -50,11 +50,12 @@
         {% endfor %}
       </tbody>
     </table>
+
     <div id="email_modal" class="ui modal">
       <i class="close icon"></i>
       <div id="modal_header" class="header"> </div>
-        <div class="content">
-          <div id="modal_form" class="ui form">
+      <div class="content">
+        <div id="modal_form" class="ui form">
           <div class="field">
             <label>Enter your email pls</label>
             <div class="ui left labeled icon input">
@@ -64,13 +65,13 @@
             </div>
           </div> {# field end #}
           <input id="session_name" type="hidden" name="session_name" value="">
-          </div> {# end form #}
-        </div>
-        <div class="actions">
-          <div class="ui button">Cancel</div>
-          <div class="ui green submit button">OK</div>
-        </div>
-    </div>
+        </div> {# end form #}
+      </div> {# end content #}
+      <div class="actions">
+        <div class="ui negative button">Cancel</div>
+        <div class="ui positive button">OK</div>
+      </div>
+    </div> {# end of modal #}
   </div>
 </div>
 {% endblock content %}
