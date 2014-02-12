@@ -18,6 +18,7 @@ def index():
 def welcome():
   return render_template("welcome.jinja")
 
+
 @app.route("/<session_name>/<user_email>/orderpizza/", methods=["GET", "POST"])
 def pizzaorder(session_name, user_email):
   if request.method == "POST":
@@ -69,4 +70,5 @@ def get_list_of_pizza_places():
   return [name for _, name, _ in pkgutil.iter_modules(["pizza_places"])]
 
 if __name__ == "__main__":
-  app.run()
+  #app.run() # listen on localhost / more secure
+  app.run(host="0.0.0.0") # listen on all public IPs
