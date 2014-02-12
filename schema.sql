@@ -5,6 +5,7 @@ CREATE TABLE sessions(
   approxarrival datetime,
   pizzaplace integer not null,
   foreign key(pizzaplace) references pizzaplaces(id),
+  mail text not null
 );
 
 CREATE TABLE pizzaplaces(
