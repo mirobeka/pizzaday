@@ -4,6 +4,7 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from flask import session as flask_session
 import sessions
 import pkgutil
 
@@ -12,63 +13,58 @@ app.debug = True
 
 @app.route("/")
 def index():
-  return redirect(url_for("welcome"))
+    return redirect(url_for("welcome"))
 
 @app.route("/welcome/")
 def welcome():
-  return render_template("welcome.jinja")
+    return render_template("welcome.jinja")
 
+@app.route("/orderpizza/", methods=["GET"])
+def get_pizzaorder():
+    # run before request
+    if "active_session" not in flask_session:
+        return redirect(url_for("get_active_sessions"))
 
-@app.route("/<session_name>/<user_email>/orderpizza/", methods=["GET", "POST"])
-def pizzaorder(session_name, user_email):
-  if request.method == "POST":
-    sessions.add_order_to_session(session_name, user_email, request.form)
-    return url_for("review_order", session_name=session_name, size=request.form["size"], pizza=request.form["pizza"])
-  else:
-    pizzas = get_pizza_options(session_name)
+    session_id = flask_session["active_session"]
+    pizzas = get_pizza_options(session_id)
     return render_template("select_pizza.jinja", pizzas=pizzas)
 
-@app.route("/<session_name>/review/<size>/<pizza>/")
-def review_order(session_name, size, pizza):
-  pizzas = get_pizza_options(session_name)
-  pizza_info = pizzas[int(pizza)]
-  return render_template("review_order.jinja", session_name=session_name, pizza_info=pizza_info, size=size)
+@app.route("/orderpizza/", methods=["POST"])
+def create_pizzaorder():
+    # run before request
+    if "active_session" not in flask_session:
+        return url_for("get_active_sessions")
 
-@app.route("/startsession/", methods=["GET", "POST"])
-def start_session():
-  if request.method == "POST":
-    return start_new_session(request)
-  else:
-    pizza_places = get_list_of_pizza_places()
+    session_id = flask_session["active_session"]
+    sessions.add_order(session_id, request.form)
+    return url_for("thank_you")
+
+@app.route("/thank_you/")
+def thank_you(session_name, size, pizza):
+    flask_session.pop("active_session")
+    return render_template("thank_you.jinja")
+
+@app.route("/startsession/", methods=["GET"])
+def get_startsession():
+    pizza_places = sessions.pizza_places()
     return render_template("start_session.jinja", pizza_places=pizza_places)
 
-@app.route("/activesessions/", methods=["GET", "POST"])
-def active_sessions():
-  if request.method == "POST":
-    return url_for("pizzaorder", user_email=request.form["user_email"], session_name=request.form["session_name"])
+@app.route("/startsession/", methods=["POST"])
+def create_session():
+    session_id= sessions.create_session(request.form)
+    flask_session["active_session"] = session_id
+    return url_for("get_pizzaorder")
+
+@app.route("/activesessions/", methods=["GET"])
+def get_active_sessions():
   session_list = sessions.get_session_list()
-  if len(session_list) <= 0:
-    return render_template("no_active_sessions.jinja")
   return render_template("active_sessions.jinja", sessions=session_list)
 
-
-##
-# Functions
-
-def get_pizza_options(session_name):
-    session = sessions.get_session(session_name)
-    restaurant_name = session.get("info", "restaurant")
-    restaurant = __import__("pizza_places."+restaurant_name, fromlist=[restaurant_name])
-    return restaurant.gimme_dat_pizzas()
-
-
-def start_new_session(request):
-  sessions.create_session(request.form["email"], request.form)
-  return url_for("active_sessions")
-
-def get_list_of_pizza_places():
-  return [name for _, name, _ in pkgutil.iter_modules(["pizza_places"])]
+@app.route("/activesessions/", methods=["POST"])
+def join_session():
+    flask_session["active_session"] = request.form["session"]
+    return url_for("get_pizzaorder")
 
 if __name__ == "__main__":
   #app.run() # listen on localhost / more secure
-  app.run(host="0.0.0.0") # listen on all public IPs
+  app.run(host="127.0.0.1") # listen on all public IPs
