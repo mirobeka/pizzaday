@@ -14,42 +14,57 @@
 <div class="top small spacer"></div>
 <div class="ui page grid">
   <div class="ui column">
-    <h2 class="ui huge center aligned icon header" >
-      <i class="blue time icon"></i>
-      <div class="content">
-        Active Sessions
-      </div>
-    </h2>
+    {% if sessions %}
+      <h2 class="ui huge center aligned icon header" >
+        <i class="blue time icon"></i>
+        <div class="content">
+          Active Sessions
+        </div>
+      </h2>
 
-    <table class="ui inverted table segment">
-      <thead>
-        <tr>
-          <th> Dealer </th>
-          <th> Restaurant </th>
-          <th> Deadline </th>
-          <th> Approx Lunch </th>
-          <th> # of Orders </th>
-          <th> Join? </th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for dealer, data in sessions.items() %}
-        <tr>
-          <td>{{ dealer }}</td>
-          <td>{{ data.get("info", "restaurant")|capitalize }}</td>
-          <td>{{ data.get("info", "deadline") }}</td>
-          <td>{{ data.get("info", "approx_lunch") }}</td>
-          <td>{{ data.options("orders")|length }} orders</td>
-          <td>
-            <a class="ui green medium button" onclick="join('{{dealer}}');">
-              yes!
-            </a>
-          </td>
-        </tr>
-          
-        {% endfor %}
-      </tbody>
-    </table>
+      <table class="ui inverted table segment">
+        <thead>
+          <tr>
+            <th> Session id </th>
+            <th> Restaurant </th>
+            <th> Deadline </th>
+            <th> Join? </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for session in sessions %}
+          <tr>
+            <td>{{ session.id }}</td>
+            <td>{{ session.place_name }}</td>
+            <td>{{ session.deadline }}</td>
+            <td>
+              <a class="ui green medium button" onclick="join('{{session.id}}');">
+                yes!
+              </a>
+            </td>
+          </tr>
+            
+          {% endfor %}
+        </tbody>
+      </table>
+
+    {% else %}
+      <h2 class="ui huge center aligned icon header" >
+        <i class="blue meh icon"></i>
+        <div class="content">
+          Damm It!
+          <div class="sub header">
+           No Pizza Sessions
+          </div>
+        </div>
+      </h2>
+
+      <div class="ui fluid center aligned borderless segment small top spacer">
+        <a href={{ url_for("get_startsession") }} class="ui huge button">
+          Create Session?
+        </a>
+      </div>
+    {% endif %}
 
     <div id="email_modal" class="ui modal">
       <i class="close icon"></i>
@@ -72,6 +87,6 @@
         <div class="ui positive button">OK</div>
       </div>
     </div> {# end of modal #}
-  </div>
+</div> {# end of column #}
 </div>
 {% endblock content %}
