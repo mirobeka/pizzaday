@@ -1,0 +1,6 @@
+# database configuration
+DATABASE = 'das_develop_pizzas.db'
+
+# start debug mode
+DEBUG = True
+

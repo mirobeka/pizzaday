@@ -1,0 +1,6 @@
+# database configuration
+DATABASE = "das_test_pizzas.db"
+
+# start testing mode
+DEBUG = False
+TESTING = True
