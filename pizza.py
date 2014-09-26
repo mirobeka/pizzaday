@@ -13,9 +13,8 @@ import logging
 
 logger = logging.getLogger("CONTROLLER")
 
-DATABASE = 'das_pizzas.db'
 app = Flask(__name__)
-app.debug = True
+app.config.from_envvar("PIZZA_CONFIG")
 
 @app.route("/")
 def index():
@@ -97,6 +96,7 @@ def init_db():
         db.commit()
 
 def check_database():
+    DATABASE = app.config["DATABASE"]
     if not os.path.exists(DATABASE):
         with open(DATABASE, "w"):
             logger.info("Creating empty database file: {}".format(DATABASE))
@@ -109,6 +109,7 @@ def query_db(query, args=(), one=False):
     return (rv[0] if rv else None) if one else rv
 
 def connect_to_database():
+    DATABASE = app.config["DATABASE"]
     try:
         connection = sqlite3.connect(DATABASE)
     except sqlite3.Error as e:
