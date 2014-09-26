@@ -1,7 +1,15 @@
 from __future__ import print_function
 
+class Session(object):
+    def __init__(self, id, place_id, deadline):
+        self.id = id
+        self.place_id = id
+        self.place_name = id
+        self.deadline = deadline
+
 def get_session_list():
-    pass
+    s1 = Session("adsf", "chommi", "11:30")
+    return [s1]
 
 def pizza_places():
     """Returns list of available pizza places
