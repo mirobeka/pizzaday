@@ -4,10 +4,16 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from flask import g
 from flask import session as flask_session
 import sessions
-import pkgutil
+import sqlite3
+import os
+import logging
 
+logger = logging.getLogger("CONTROLLER")
+
+DATABASE = 'das_pizzas.db'
 app = Flask(__name__)
 app.debug = True
 
@@ -65,6 +71,53 @@ def join_session():
     flask_session["active_session"] = request.form["session"]
     return url_for("get_pizzaorder")
 
+# Database helpers
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = connect_to_database()
+    db.row_factory = sqlite3.Row
+    return db
+
+@app.before_request
+def before_request():
+    g.db = get_db()
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+def init_db():
+    with app.app_context():
+        db = get_db()
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
+def check_database():
+    if not os.path.exists(DATABASE):
+        with open(DATABASE, "w"):
+            logger.info("Creating empty database file: {}".format(DATABASE))
+            init_db()
+
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
+def connect_to_database():
+    try:
+        connection = sqlite3.connect(DATABASE)
+    except sqlite3.Error as e:
+        logger.exception("Exception while connecting to database: {}".format(DATABASE))
+        logger.exception(e)
+        raise e
+    return connection
+
 if __name__ == "__main__":
-  #app.run() # listen on localhost / more secure
-  app.run(host="127.0.0.1") # listen on all public IPs
+    check_database()
+    #app.run() # listen on localhost / more secure
+    app.run(host="127.0.0.1") # listen on all public IPs
