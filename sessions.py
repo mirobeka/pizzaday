@@ -16,7 +16,7 @@ def pizza_places():
 
     :returns: list of touples (place_name, place_id)
     """
-    pass
+    return ["Carla"]
 
 def create_session(session_name, data):
     pass
