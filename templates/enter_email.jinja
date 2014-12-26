@@ -1,0 +1,21 @@
+{% extends "application.jinja" %}
+{# change title #}
+{% block title %}Pizza Day{% endblock %} 
+{# content for main block #}
+{% block content %}
+
+<div class="big top spacer"></div>
+<div class="ui page grid">
+    <div class="ui column">
+        <form action="" method="post" name="email">
+            {{ emailform.hidden_tag() }}
+            <p>
+            Enter your email: {{emailform.email}}
+            </p>
+            <p>
+            <input type="submit" value="Enter Email" />
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock content %}
