@@ -4,27 +4,50 @@ from flask import render_template
 from flask import redirect
 from flask import url_for
 from flask import request
+from flask import flash
 from flask import g
 from flask import session as flask_session
+from functools import wraps
 import sessions
 import sqlite3
 import os
 import logging
+from forms import EnterEmailForm
+
+def email_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if "user_email" not in flask_session:
+            return redirect(url_for("enter_email_get"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 logger = logging.getLogger("CONTROLLER")
 
 app = Flask(__name__)
 app.config.from_envvar("PIZZA_CONFIG")
 
-@app.route("/")
-def index():
-    return redirect(url_for("welcome"))
+@app.route("/", methods=["POST"])
+def enter_email_post():
+    emailform = EnterEmailForm()
+    if emailform.validate_on_submit():
+        flask_session["user_email"] = emailform.data["email"]
+        flash("Let the eating begin! {}".format(flask_session["user_email"]))
+        return redirect(url_for("select_action"))
 
-@app.route("/welcome/")
-def welcome():
-    return render_template("welcome.jinja")
+@app.route("/", methods=["GET"])
+def enter_email_get():
+    emailform = EnterEmailForm()
+    return render_template("enter_email.jinja", emailform=emailform)
+
+@app.route("/select/")
+@email_required
+def select_action():
+    return render_template("select_action.jinja")
 
 @app.route("/orderpizza/", methods=["GET"])
+@email_required
 def get_pizzaorder():
     # run before request
     if "active_session" not in flask_session:
@@ -35,6 +58,7 @@ def get_pizzaorder():
     return render_template("select_pizza.jinja", pizzas=pizzas)
 
 @app.route("/orderpizza/", methods=["POST"])
+@email_required
 def create_pizzaorder():
     # run before request
     if "active_session" not in flask_session:
@@ -50,6 +74,7 @@ def thank_you(session_name, size, pizza):
     return render_template("thank_you.jinja")
 
 @app.route("/startsession/", methods=["GET"])
+@email_required
 def get_startsession():
     pizza_places = sessions.pizza_places()
     return render_template("start_session.jinja", pizza_places=pizza_places)
@@ -61,6 +86,7 @@ def create_session():
     return url_for("get_pizzaorder")
 
 @app.route("/activesessions/", methods=["GET"])
+@email_required
 def get_active_sessions():
   session_list = sessions.get_session_list()
   return render_template("active_sessions.jinja", sessions=session_list)
