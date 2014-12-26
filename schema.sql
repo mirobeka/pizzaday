@@ -1,34 +1,29 @@
 CREATE TABLE sessions(
-  id integer primary key autoincrement not null,
-  start datetime default current_timestamp,
-  end datetime not null,
-  pizzaplace integer not null,
-  foreign key(pizzaplace) references pizzaplaces(id),
+  id INTEGER PRIMARY KEY,
+  deadline DATETIME,
+  pizzaplace INTEGER
 );
 
 CREATE TABLE pizzaplaces(
-  id integer primary key autoincrement not null,
-  name text not null,
-  url text not null
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  url TEXT
 );
 
 CREATE TABLE pizzas(
-  id integer primary key autoincrement not null,
-  name text not null,
-  size text not null,
-  weight integer not null,
-  price real not null,
-  pizzaplace integer not null,
-  image blob,
-  foreign key(pizzaplace) references pizzaplaces(id)
+  id INTEGER PRIMARY KEY,
+  name TEXT,
+  price REAL,
+  pizzaplace INTEGER,
+  FOREIGN KEY(pizzaplace) REFERENCES pizzaplaces(id)
 );
 
 CREATE TABLE orders(
-  id integer primary key autoincrement not null,
-  mail text not null,
-  extra text,
-  session integer not null,
-  foreign key(session) references sessions(id),
-  pizza integer not null,
-  foreign key(pizza) references pizzas(id)
+  id INTEGER PRIMARY KEY,
+  mail TEXT,
+  extra TEXT,
+  session INTEGER,
+  pizza INTEGER,
+  FOREIGN KEY(session) REFERENCES sessions(id),
+  FOREIGN KEY(pizza) REFERENCES pizzas(id)
 );
