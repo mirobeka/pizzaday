@@ -3,8 +3,6 @@
 case "$1" in
         developing)
             export PIZZA_CONFIG=settings.development
-            # insert data into database for developing
-            python init_database.py $PIZZA_CONFIG
             python pizza.py
             ;;
          
