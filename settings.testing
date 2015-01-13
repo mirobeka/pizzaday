@@ -4,3 +4,7 @@ DATABASE = "das_test_pizzas.db"
 # start testing mode
 DEBUG = False
 TESTING = True
+
+# wtf forms
+WTF_CSRF_ENABLED = True
+SECRET_KEY = 'pizza'

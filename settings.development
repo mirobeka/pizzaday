@@ -4,3 +4,6 @@ DATABASE = 'das_develop_pizzas.db'
 # start debug mode
 DEBUG = True
 
+# wtf forms
+WTF_CSRF_ENABLED = True
+SECRET_KEY = 'pizza'
