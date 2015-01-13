@@ -36,7 +36,11 @@ INSERT INTO pizzaplaces (name, url) VALUES ("carla", "http://www.pizzacarla.sk/"
 INSERT INTO pizzaplaces (name, url) VALUES ("chommi", "http://www.chommi.sk/pizza.html");
 INSERT INTO pizzaplaces (name, url) VALUES ("erik", "http://pizzaerik.sk/");
 
-INSERT INTO pizzas (name, price, pizzaplace) VALUES ("Margeritha", "4.20", "carla");
-INSERT INTO pizzas (name, price, pizzaplace) VALUES ("Roma", "6.90", "Carla");
-INSERT INTO pizzas (name, price, pizzaplace) VALUES ("Margeritha erik", "4.20", "erik");
-INSERT INTO pizzas (name, price, pizzaplace) VALUES ("Margeritha chommi", "4.20", "chommi");
+INSERT INTO pizzas (id, name, price, pizzaplace) VALUES ("1", "Margeritha", "4.20", "carla");
+INSERT INTO pizzas (id, name, price, pizzaplace) VALUES ("2", "Roma", "6.90", "carla");
+INSERT INTO pizzas (id, name, price, pizzaplace) VALUES ("3", "Margeritha erik", "4.20", "erik");
+INSERT INTO pizzas (id, name, price, pizzaplace) VALUES ("4", "Margeritha chommi", "4.20", "chommi");
+
+INSERT INTO sessions (id, email, deadline, pizzaplace) VALUES ("1", "mirobeka@gmail.com", "2015-01-13 10:00", "carla");
+
+INSERT INTO orders (id, email, extra, session, pizza) VALUES ("1", "lala@gmail.com", "Vajice naviac", "1", "2");
