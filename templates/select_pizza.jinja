@@ -24,15 +24,31 @@
       </div>
     </h2>
 
-    <div class="ui fluid accordion">
-      {{ pz_helper.pizza_header() }}
+    <table>
+        <thead>
+            <tr>
+                <th> Name </th>
+                <th> Price </th>
+                <th> Order? </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pizza in pizzas %}
+                <tr>
+                    <td> {{pizza[1]}} </td>
+                    <td> {{pizza[2]}} </td>
+                    <td>
+                        <form action="" method="POST" name="order">
+                            <input type="hidden" value="{{pizza[0]}}" name="pizza_id" />
+                            <input type="submit" value="Order" />
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-      {% for pizza in pizzas -%}
-          {{ pz_helper.pizza_item(pizza[0], pizza[5], pizza[1], pizza[2], pizza[3], pizza[4], pizza[6]) }}
-      {%- endfor %}
-    </div> {# end of accordion #}
-
-    <a href={{ url_for("active_sessions") }} class="ui medium vertical animated button">
+    <a href={{ url_for("get_active_sessions") }} class="ui medium vertical animated button">
       <div class="visible content">
         back to sessions
       </div>

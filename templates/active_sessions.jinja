@@ -25,7 +25,7 @@
       <table class="ui inverted table segment">
         <thead>
           <tr>
-            <th> Session id </th>
+            <th> Session email </th>
             <th> Restaurant </th>
             <th> Deadline </th>
             <th> Join? </th>
@@ -34,13 +34,14 @@
         <tbody>
           {% for session in sessions %}
           <tr>
-            <td>{{ session.id }}</td>
-            <td>{{ session.place_name }}</td>
+            <td>{{ session.email }}</td>
+            <td>{{ session.pizzaplace }}</td>
             <td>{{ session.deadline }}</td>
             <td>
-              <a class="ui green medium button" onclick="join('{{session.id}}');">
-                yes!
-              </a>
+                <form action="" method="POST" name="session">
+                    <input type="hidden" name="session_id" value="{{session.id}}" />
+                    <input type="submit" value="Yes" />
+                </form>
             </td>
           </tr>
             
@@ -65,28 +66,6 @@
         </a>
       </div>
     {% endif %}
-
-    <div id="email_modal" class="ui modal">
-      <i class="close icon"></i>
-      <div id="modal_header" class="header"> </div>
-      <div class="content">
-        <div id="modal_form" class="ui form">
-          <div class="field">
-            <label>Enter your email pls</label>
-            <div class="ui left labeled icon input">
-              <input type="text" name="user_email" placeholder="joh@here.com">
-                <i class="mail icon"></i>
-              </input>
-            </div>
-          </div> {# field end #}
-          <input id="session_name" type="hidden" name="session_name" value="">
-        </div> {# end form #}
-      </div> {# end content #}
-      <div class="actions">
-        <div class="ui negative button">Cancel</div>
-        <div class="ui positive button">OK</div>
-      </div>
-    </div> {# end of modal #}
 </div> {# end of column #}
 </div>
 {% endblock content %}
