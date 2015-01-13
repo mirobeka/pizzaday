@@ -106,7 +106,9 @@ def create_session():
 @email_required
 @session_required
 def session_dashboard():
-    pass
+    session_id = flask_session["active_session"]
+    session_data = sessions.get_session(session_id)
+    return render_template("session_dashboard.jinja", orders=session_data["orders"])
 
 @app.route("/activesessions/", methods=["GET"])
 @email_required

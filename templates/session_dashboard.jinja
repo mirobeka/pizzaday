@@ -11,4 +11,25 @@
 {# content for main block #}
 {% block content %}
 
+<table>
+    <thead>
+        <tr>
+            <th>user</th>
+            <th>pizza</th>
+            <th>extra</th>
+            <th>price</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <th> {{ order["email"] }} </th>
+            <th> {{ order["pizza_name"] }} </th>
+            <th> {{ order["extra"] }} </th>
+            <th> {{ order["pizza_price"] }} € </th>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
 {% endblock content %}

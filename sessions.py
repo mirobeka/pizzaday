@@ -5,6 +5,29 @@ def get_session_list():
     sessions = query_db("select * from sessions;")
     return sessions
 
+def get_session(session_id):
+    session = {}
+    query = "select email, extra, session, pizza from orders where session == '{}';".format(session_id)
+    orders = query_db(query)
+    session["orders"] = []
+    for order in orders:
+        o = {
+                "email" : order[0],
+                "extra" : order[1],
+                "session" : order[2],
+                "pizza" : order[3]
+            }
+        query = "select name, price from pizzas where id == '{}'".format(o["pizza"])
+        pizza = query_db(query, one=True)
+        o["pizza_name"] = pizza[0]
+        o["pizza_price"] = pizza[1]
+
+        session["orders"].append(o)
+
+    return session
+
+
+
 def pizza_places():
     """Returns list of available pizza places
 
@@ -14,8 +37,10 @@ def pizza_places():
     return places
 
 def pizzas(session_id):
-    session = query_db("select * from sessions where id == '{}';".format(session_id), one=True)
-    pizzas = query_db("select * from pizzas where pizzaplace == lower('{}');".format(session[3]))
+    pizzaplace = query_db("select pizzaplace from sessions where id == '{}';".format(session_id), one=True)
+    if pizzaplace is None:
+        return
+    pizzas = query_db("select * from pizzas where pizzaplace == lower('{}');".format(pizzaplace[0]))
     return pizzas
 
 def create_session(email, data):

@@ -35,11 +35,11 @@
         <tbody>
             {% for pizza in pizzas %}
                 <tr>
-                    <td> {{pizza[1]}} </td>
-                    <td> {{pizza[2]}} </td>
+                    <td> {{pizza["name"]}} </td>
+                    <td> {{pizza["price"]}} </td>
                     <td>
                         <form action="" method="POST" name="order">
-                            <input type="hidden" value="{{pizza[0]}}" name="pizza_id" />
+                            <input type="hidden" value="{{pizza["id"]}}" name="pizza_id" />
                             <input type="submit" value="Order" />
                         </form>
                     </td>
