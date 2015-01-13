@@ -1,34 +1,52 @@
 from __future__ import print_function
-
-class Session(object):
-    def __init__(self, id, place_id, deadline):
-        self.id = id
-        self.place_id = id
-        self.place_name = id
-        self.deadline = deadline
+from pizza import query_db, sql_query
 
 def get_session_list():
-    s1 = Session("adsf", "chommi", "11:30")
-    return [s1]
+    sessions = query_db("select * from sessions;")
+    return sessions
 
 def pizza_places():
     """Returns list of available pizza places
 
-    :returns: list of touples (place_name, place_id)
+    :returns: list of pizzaplaces (name, url)
     """
-    return ["Carla"]
+    places = query_db("select * from pizzaplaces;")
+    return places
 
-def create_session(session_name, data):
-    pass
+def pizzas(session_id):
+    session = query_db("select * from sessions where id == '{}';".format(session_id), one=True)
+    pizzas = query_db("select * from pizzas where pizzaplace == lower('{}');".format(session[3]))
+    return pizzas
 
-def add_order_to_session(form):
-    pass
+def create_session(email, data):
+    pizza_place_id = data["pizza_place"]
+    deadline = data["deadline"].strftime("%Y-%m-%d %H:%M")
+    query = "insert into sessions (email, deadline, pizzaplace) values ('{}','{}', '{}');"
+    query = query.format(email, deadline, pizza_place_id)
+    sql_query(query)
+    session_id = query_db("select (id) from sessions where email == '{}'".format(email), one=True)
+    return session_id[0]
 
-def load_session(session_name):
-    pass
+def add_order(session_id, user_email, pizza_id):
+    query = "insert into orders (email, session, pizza) values ('{}', '{}', '{}');"
+    query = query.format(user_email, session_id, pizza_id)
+    sql_query(query)
 
-def save_session(session_name, session):
-    pass
+    order_id = query_db("select (id) from orders where email == '{}'".format(user_email), one=True)
+    print(order_id)
+    return order_id[0]
 
-def sort_sessions_by_deadline(sessions):
-    pass
+def get_order(session_id, user_email):
+    order = {}
+    query = "select pizza from orders where email == '{}' AND session == '{}'"
+    query = query.format(user_email, session_id)
+    pizza_id = query_db(query, one=True)
+    # get id from tuple
+    pizza_id = pizza_id[0]
+    query = "select name, price from pizzas where id == '{}'".format(pizza_id)
+    pizza = query_db(query, one=True)
+    print("Pizza {} for {}euro".format(pizza[0], pizza[1]))
+    order["pizza"] = pizza[0]
+    order["price"] = pizza[1]
+    return order
+
