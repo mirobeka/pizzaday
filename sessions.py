@@ -7,7 +7,7 @@ def get_session_list():
 
 def get_session(session_id):
     session = {}
-    query = "select email, extra, session, pizza from orders where session == '{}';".format(session_id)
+    query = "select email, extra, session, pizza, id from orders where session == '{}';".format(session_id)
     orders = query_db(query)
     session["orders"] = []
     for order in orders:
@@ -15,7 +15,8 @@ def get_session(session_id):
                 "email" : order[0],
                 "extra" : order[1],
                 "session" : order[2],
-                "pizza" : order[3]
+                "pizza" : order[3],
+                "id" : order[4]
             }
         query = "select name, price from pizzas where id == '{}'".format(o["pizza"])
         pizza = query_db(query, one=True)
@@ -60,6 +61,11 @@ def add_order(session_id, user_email, pizza_id, extra):
     order_id = query_db("select (id) from orders where email == '{}'".format(user_email), one=True)
     print(order_id)
     return order_id[0]
+
+def delete_order(order_id):
+    query = "delete from orders where id == '{}'".format(order_id)
+    sql_query(query)
+    print("order {} was deleted".format(order_id))
 
 def get_order(session_id, user_email):
     order = {}

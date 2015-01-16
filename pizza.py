@@ -111,6 +111,14 @@ def session_dashboard():
     session_data = sessions.get_session(session_id)
     return render_template("session_dashboard.jinja", orders=session_data["orders"])
 
+@app.route("/dashboard/deleteorder", methods=["POST"])
+@email_required
+@session_required
+def session_dashboard_action():
+    order_id = int(request.form["order_id"])
+    sessions.delete_order(order_id)
+    return redirect(url_for("session_dashboard"))
+
 @app.route("/activesessions/", methods=["GET"])
 @email_required
 def get_active_sessions():
