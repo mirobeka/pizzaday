@@ -42,6 +42,7 @@ def enter_email_post():
     if emailform.validate_on_submit():
         flask_session["user_email"] = emailform.data["email"]
         return redirect(url_for("select_action"))
+    return render_template("enter_email.jinja", emailform=emailform)
 
 @app.route("/", methods=["GET"])
 def enter_email_get():
