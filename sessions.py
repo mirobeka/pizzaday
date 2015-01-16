@@ -52,9 +52,9 @@ def create_session(email, data):
     session_id = query_db("select (id) from sessions where email == '{}'".format(email), one=True)
     return session_id[0]
 
-def add_order(session_id, user_email, pizza_id):
-    query = "insert into orders (email, session, pizza) values ('{}', '{}', '{}');"
-    query = query.format(user_email, session_id, pizza_id)
+def add_order(session_id, user_email, pizza_id, extra):
+    query = "insert into orders (email, session, pizza, extra) values ('{}', '{}', '{}', '{}');"
+    query = query.format(user_email, session_id, pizza_id, extra)
     sql_query(query)
 
     order_id = query_db("select (id) from orders where email == '{}'".format(user_email), one=True)

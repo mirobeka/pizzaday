@@ -69,9 +69,10 @@ def get_pizzaorder():
 def create_pizzaorder():
     if "pizza_id" in request.form:
         pizza_id = int(request.form["pizza_id"])
+        pizza_extra = request.form["extra"]
         session_id = flask_session["active_session"]
         user_email = flask_session["user_email"]
-        sessions.add_order(session_id, user_email, pizza_id)
+        sessions.add_order(session_id, user_email, pizza_id, pizza_extra)
         return redirect(url_for("thank_you"))
 
     return url_for("thank_you")

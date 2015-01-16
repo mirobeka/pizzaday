@@ -29,20 +29,24 @@
             <tr>
                 <th> Name </th>
                 <th> Price </th>
+                <th> Extra </th>
                 <th> Order? </th>
             </tr>
         </thead>
         <tbody>
             {% for pizza in pizzas %}
                 <tr>
-                    <td> {{pizza["name"]}} </td>
-                    <td> {{pizza["price"]}} </td>
-                    <td>
-                        <form action="" method="POST" name="order">
+                    <form action="" method="POST" name="order">
+                        <td> {{pizza["name"]}} </td>
+                        <td> {{pizza["price"]}} </td>
+                        <td>
+                            <input type="text" name="extra" />
+                        </td>
+                        <td>
                             <input type="hidden" value="{{pizza["id"]}}" name="pizza_id" />
                             <input type="submit" value="Order" />
-                        </form>
-                    </td>
+                        </td>
+                    </form>
                 </tr>
             {% endfor %}
         </tbody>
