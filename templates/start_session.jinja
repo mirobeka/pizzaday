@@ -3,12 +3,6 @@
 {# change title #}
 {% block title %}Pizza Day{% endblock %}
 
-{% block head %}
-  {{ super() }}
-  <script src= {{ url_for("static", filename="js/start_session.js") }}></script>
-{% endblock head %}
-
-
 {# content for main block #}
 {% block content %}
 
