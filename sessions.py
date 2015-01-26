@@ -6,7 +6,15 @@ def get_session_list():
     return sessions
 
 def get_session(session_id):
+    session_row = query_db("select * from sessions where id == '{}';".format(session_id), one=True)
+    if not session_row:
+        return None
     session = {}
+    session["active"] = session_row["active"]
+    session["email"] = session_row["email"]
+    session["pizzaplace"] = session_row["pizzaplace"]
+    session["deadline"] = session_row["deadline"]
+    session["id"] = session_row["id"]
     query = "select email, extra, session, pizza, id from orders where session == '{}';".format(session_id)
     orders = query_db(query)
     session["orders"] = []
@@ -24,10 +32,7 @@ def get_session(session_id):
         o["pizza_price"] = pizza[1]
 
         session["orders"].append(o)
-
     return session
-
-
 
 def pizza_places():
     """Returns list of available pizza places
@@ -52,6 +57,10 @@ def create_session(email, data):
     sql_query(query)
     session_id = query_db("select (id) from sessions where email == '{}'".format(email), one=True)
     return session_id[0]
+
+def close_session(session_id):
+    query = "update sessions set active = 0 where id == '{}';".format(session_id)
+    sql_query(query)
 
 def add_order(session_id, user_email, pizza_id, extra):
     query = "insert into orders (email, session, pizza, extra) values ('{}', '{}', '{}', '{}');"

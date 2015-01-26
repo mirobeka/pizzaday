@@ -84,9 +84,7 @@ def create_pizzaorder():
 def thank_you():
     session_id = flask_session.pop("active_session")
     user_email = flask_session.pop("user_email")
-
     order = sessions.get_order(session_id, user_email)
-
     return render_template("thank_you.jinja", order=order)
 
 @app.route("/startsession/", methods=["GET"])
@@ -120,14 +118,31 @@ def session_dashboard_action():
     sessions.delete_order(order_id)
     return redirect(url_for("session_dashboard"))
 
+@app.route("/dashboard/closesession", methods=["POST"])
+@email_required
+@session_required
+def close_session():
+    session_id = int(flask_session["active_session"])
+    sessions.close_session(session_id)
+    return redirect(url_for("session_dashboard"))
+
 @app.route("/activesessions/", methods=["GET"])
 @email_required
 def get_active_sessions():
-  session_list = sessions.get_session_list()
-  return render_template("active_sessions.jinja", sessions=session_list)
+    session_list = sessions.get_session_list()
+    return render_template("active_sessions.jinja", sessions=session_list)
 
 @app.route("/activesessions/", methods=["POST"])
 def join_session():
+    session = sessions.get_session(request.form["session_id"])
+    if session is None:
+        # session doesn't exists
+        return redirect(url_for("get_active_sessions"))
+
+    if not session["active"]:
+        # session is closed
+        return redirect(url_for("get_active_sessions"))
+
     flask_session["active_session"] = request.form["session_id"]
     return redirect(url_for("get_pizzaorder"))
 

@@ -11,36 +11,45 @@
 {# content for main block #}
 {% block content %}
 
-{% if orders %}
-    <table>
-        <thead>
-            <tr>
-                <th>user</th>
-                <th>pizza</th>
-                <th>extra</th>
-                <th>price</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for order in orders %}
-            <tr>
-                <td> {{ order["email"] }} </td>
-                <td> {{ order["pizza_name"] }} </td>
-                <td> {{ order["extra"] }} </td>
-                <td> {{ order["pizza_price"] }} € </td>
-                <td>
-                    <form action="deleteorder" method="POST" name="delete_order">
-                        <input type="hidden" name="order_id" value="{{order["id"]}}" />
-                        <input type="submit" name="submit" value="delete" />
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No orders yet...</p>
-{% endif %}
+<div class="orders">
+    {% if orders %}
+        <table>
+            <thead>
+                <tr>
+                    <th>user</th>
+                    <th>pizza</th>
+                    <th>extra</th>
+                    <th>price</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td> {{ order["email"] }} </td>
+                    <td> {{ order["pizza_name"] }} </td>
+                    <td> {{ order["extra"] }} </td>
+                    <td> {{ order["pizza_price"] }} € </td>
+                    <td>
+                        <form action="deleteorder" method="POST" name="delete_order">
+                            <input type="hidden" name="order_id" value="{{order["id"]}}" />
+                            <input type="submit" name="submit" value="delete" />
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No orders yet...</p>
+    {% endif %}
+</div>
+
+<div class="actions">
+    <form action="closesession" method="POST">
+        <input type="submit" value="Close session" />
+    </form>
+</div>
+
 
 {% endblock content %}

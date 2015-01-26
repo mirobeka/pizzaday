@@ -3,6 +3,7 @@ CREATE TABLE sessions(
   email TEXT,
   deadline DATETIME,
   pizzaplace TEXT,
+  active INTEGER DEFAULT 1,
   FOREIGN KEY(pizzaplace) REFERENCES pizzaplaces(name)
 );
 

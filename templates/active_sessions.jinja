@@ -28,6 +28,7 @@
             <th> Session email </th>
             <th> Restaurant </th>
             <th> Deadline </th>
+            <th> Status </th>
             <th> Join? </th>
           </tr>
         </thead>
@@ -37,10 +38,11 @@
             <td>{{ session.email }}</td>
             <td>{{ session.pizzaplace }}</td>
             <td>{{ session.deadline }}</td>
+            <td>{%- if session.active -%} Active {%- else -%} Closed {%endif%}</td>
             <td>
                 <form action="" method="POST" name="session">
                     <input type="hidden" name="session_id" value="{{session.id}}" />
-                    <input type="submit" value="Yes" />
+                    <input type="submit" {{ '' if session.active else 'disabled'}} value="Yes" />
                 </form>
             </td>
           </tr>
