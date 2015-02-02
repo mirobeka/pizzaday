@@ -3,9 +3,6 @@ from wtforms import StringField, DateTimeField, SelectField
 from wtforms.validators import Length
 from datetime import datetime
 
-class EnterEmailForm(Form):
-    email = StringField('Email Address', validators=[Length(min=6, max=35)])
-
 class StartSessionForm(Form):
     date_format = "%Y-%m-%d %H:%M"
     deadline = DateTimeField("deadline", format=date_format)

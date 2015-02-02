@@ -13,7 +13,7 @@ import sessions
 import sqlite3
 import os
 import logging
-from forms import EnterEmailForm, StartSessionForm
+from forms import StartSessionForm
 
 def email_required(f):
     @wraps(f)
@@ -38,16 +38,15 @@ app.config.from_envvar("PIZZA_CONFIG")
 
 @app.route("/", methods=["POST"])
 def enter_email_post():
-    emailform = EnterEmailForm()
-    if emailform.validate_on_submit():
-        flask_session["user_email"] = emailform.data["email"]
+    # get email from request.form
+    if "email" not in request.form:
         return redirect(url_for("select_action"))
-    return render_template("enter_email.jinja", emailform=emailform)
+    flask_session["user_email"] = request.form["email"]
+    return redirect(url_for("select_action"))
 
 @app.route("/", methods=["GET"])
 def enter_email_get():
-    emailform = EnterEmailForm()
-    return render_template("enter_email.jinja", emailform=emailform)
+    return render_template("enter_email.jinja")
 
 @app.route("/select/")
 @email_required

@@ -4,37 +4,13 @@ html, body {
   margin: 0px;
 }
 
-.stripe {
-  padding: 50px 0px;
-}
-
-.dark.stripe {
-  background-color: #333333;
-  color: #FFFFFF;
+.page-wrap {
+    min-height: 95%;
 }
 
 .footer.link.list {
   display: block;
   text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-form.ui.form{
-  -moz-box-shadow: 0px 0px 0px 0px;
-  -webkit-box-shadow: 0px 0px 0px 0px;
-  box-shadow: 0px 0px 0px 0px;
-  padding: 0px;
-}
-
-.segment.borderless{
-  -moz-box-shadow: 0px 0px 0px 0px;
-  -webkit-box-shadow: 0px 0px 0px 0px;
-  box-shadow: 0px 0px 0px 0px;
-}
-
-/* remove margin in hidden pizza item fields */
-.ui.fluid.accordion .field{
-  margin: 0px 0px 0px 0px;
 }
 
 /* spacer for welcome page */
@@ -47,5 +23,13 @@ form.ui.form{
 }
 
 .small.top.spacer{
-  margin-top: 5%;
+  padding-top: 5%;
+}
+
+.big.padding-spacer {
+    padding-top: 32%;
+}
+
+.medium.padding-spacer {
+    padding-top: 20%;
 }

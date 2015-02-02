@@ -4,17 +4,14 @@
 {# content for main block #}
 {% block content %}
 
-<div class="big top spacer"></div>
-<div class="ui page grid">
-    <div class="ui column">
+<div class="ui centered grid page-wrap">
+    <div class="medium padding-spacer"></div>
+    <div class="ui four wide column">
         <form action="" method="post" name="email">
-            {{ emailform.hidden_tag() }}
-            <p>
-            Enter your email: {{emailform.email}}
-            </p>
-            <p>
-            <input type="submit" value="Enter Email" />
-            </p>
+            <div class="ui action input">
+                <input type="text" placeholder="Email address..." name="email">
+                <div class="ui button"> Enter </div>
+            </div>
         </form>
     </div>
 </div>
